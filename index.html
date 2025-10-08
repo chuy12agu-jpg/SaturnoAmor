@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Dali y Jesús</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+  overflow:hidden;
+  color:#fff;
+  background:#000;
+  text-align:center;
+}
+
+/* Estrellas dinámicas */
+.stars, .stars2, .stars3{
+  position:fixed;inset:0;z-index:0;pointer-events:none;background-repeat:repeat;
+}
+
+.stars{
+  background-image:
+    radial-gradient(1.5px 1.5px at 10% 20%, #fff, transparent),
+    radial-gradient(1px 1px at 80% 70%, #fff, transparent),
+    radial-gradient(2px 2px at 50% 50%, #fff, transparent);
+  opacity:0.9;
+  animation:twinkle 3s infinite alternate, moveStars 60s linear infinite;
+}
+.stars2{
+  background-image:
+    radial-gradient(1px 1px at 40% 40%, #fff, transparent),
+    radial-gradient(0.8px 0.8px at 70% 20%, #fff, transparent);
+  opacity:0.6;
+  animation:twinkle 4s infinite alternate, moveStars 120s linear infinite;
+}
+.stars3{
+  background-image:
+    radial-gradient(0.8px 0.8px at 20% 80%, #fff, transparent);
+  opacity:0.4;
+  animation:twinkle 5s infinite alternate, moveStars 240s linear infinite;
+}
+
+@keyframes moveStars{from{transform:translate3d(0,0,0)}to{transform:translate3d(-2000px,0,0)}}
+@keyframes twinkle{
+  0%{opacity:0.3;}
+  50%{opacity:1;}
+  100%{opacity:0.3;}
+}
+
+/* Contenedor principal */
+.scene{position:relative;z-index:1;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center}
+
+/* Saturno con anillos */
+.saturn-wrap{position:relative;width:250px;height:250px;z-index:2;}
+.saturn{
+  width:150px;height:150px;background:radial-gradient(circle at 40% 35%, #f9d29d, #c07a39, #5a321a);
+  border-radius:50%;box-shadow:0 0 40px rgba(255,200,150,0.6);
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  z-index:2;
+}
+.rings{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotateX(65deg);
+  width:400px;height:120px;border-radius:50%;
+  background:repeating-radial-gradient(ellipse at center, rgba(255,255,255,0.4) 0px, rgba(255,255,255,0.2) 2px, rgba(120,120,200,0.1) 4px, transparent 6px);
+  z-index:1;animation:rotateRings 200s linear infinite;
+}
+@keyframes rotateRings{from{transform:translate(-50%,-50%) rotateX(65deg) rotate(0deg);}to{transform:translate(-50%,-50%) rotateX(65deg) rotate(360deg);}}
+
+.orbit{
+  position:absolute;
+  top:50%; left:50%;
+  width:500px; height:500px;
+  transform:translate(-50%,-50%);
+  animation:rotateOrbit 120s linear infinite;
+}
+@keyframes rotateOrbit{from{transform:translate(-50%,-50%) rotate(0deg);}to{transform:translate(-50%,-50%) rotate(360deg);}}
+
+.photo{
+  position:absolute;
+  width:80px; height:80px;
+  border-radius:12px; overflow:hidden;
+  border:2px solid rgba(255,255,255,0.6);
+  box-shadow:0 0 15px rgba(0,0,0,0.8);
+  cursor:pointer; transition:transform .3s;
+  top:50%; left:50%;
+  transform-origin: -200px 0;
+}
+.photo img{width:100%;height:100%;object-fit:cover}
+.photo:hover{transform:scale(1.2)}
+
+/* Distribución automática de 12 fotos en círculo */
+.photo:nth-child(1){transform:rotate(0deg) translateX(200px) rotate(0deg);}
+.photo:nth-child(2){transform:rotate(30deg) translateX(200px) rotate(-30deg);}
+.photo:nth-child(3){transform:rotate(60deg) translateX(200px) rotate(-60deg);}
+.photo:nth-child(4){transform:rotate(90deg) translateX(200px) rotate(-90deg);}
+.photo:nth-child(5){transform:rotate(120deg) translateX(200px) rotate(-120deg);}
+.photo:nth-child(6){transform:rotate(150deg) translateX(200px) rotate(-150deg);}
+.photo:nth-child(7){transform:rotate(180deg) translateX(200px) rotate(-180deg);}
+.photo:nth-child(8){transform:rotate(210deg) translateX(200px) rotate(-210deg);}
+.photo:nth-child(9){transform:rotate(240deg) translateX(200px) rotate(-240deg);}
+.photo:nth-child(10){transform:rotate(270deg) translateX(200px) rotate(-270deg);}
+.photo:nth-child(11){transform:rotate(300deg) translateX(200px) rotate(-300deg);}
+.photo:nth-child(12){transform:rotate(330deg) translateX(200px) rotate(-330deg);}
+
+/* Frase como cometa */
+.love-text{
+  position:absolute; top:0; left:-20%;
+  font-size:1.8rem;font-weight:bold;color:#ffb6c1;
+  text-shadow:0 0 5px #fff;
+  animation:comet 15s linear infinite;
+}
+@keyframes comet{
+  0%{transform:translate(0,0); text-shadow:0 0 5px #fff;}
+  50%{transform:translate(50vw,50vh); text-shadow:0 0 30px #fff;}
+  100%{transform:translate(100vw,0); text-shadow:0 0 5px #fff;}
+}
+
+h1{font-size:1.5rem;margin-bottom:20px;text-shadow:0 0 20px rgba(255,255,255,0.8)}
+
+/* Lightbox */
+.lightbox{position:fixed;inset:0;background:rgba(0,0,0,0.9);display:none;align-items:center;justify-content:center;z-index:10}
+.lightbox img{max-width:90%;max-height:90%;border-radius:12px;box-shadow:0 0 40px #000}
+.lightbox.active{display:flex}
+.close{position:absolute;top:20px;right:20px;color:#fff;font-size:32px;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="stars"></div>
+<div class="stars2"></div>
+<div class="stars3"></div>
+
+<div class="scene">
+  <h1>❤️ Entre las estrellas, Dali🌻 y Jesús brillamos eternamente ❤️</h1>
+  <div class="saturn-wrap">
+    <div class="rings"></div>
+    <div class="saturn"></div>
+  </div>
+
+  <div class="orbit">
+    <!-- Fotos en la misma carpeta que el HTML -->
+    <div class="photo"><img src="foto1.jpg" alt="foto1"></div>
+    <div class="photo"><img src="foto2.jpg" alt="foto2"></div>
+    <div class="photo"><img src="foto3.jpg" alt="foto3"></div>
+    <div class="photo"><img src="foto4.jpg" alt="foto4"></div>
+    <div class="photo"><img src="foto5.jpg" alt="foto5"></div>
+    <div class="photo"><img src="foto6.jpg" alt="foto6"></div>
+    <div class="photo"><img src="foto7.jpg" alt="foto7"></div>
+    <div class="photo"><img src="foto8.jpg" alt="foto8"></div>
+    <div class="photo"><img src="foto9.jpg" alt="foto9"></div>
+    <div class="photo"><img src="foto10.jpg" alt="foto10"></div>
+    <div class="photo"><img src="foto11.jpg" alt="foto11"></div>
+    <div class="photo"><img src="foto12.jpg" alt="foto12"></div>
+  </div>
+
+  <div class="love-text">TE AMO PARA SIEMPRE</div>
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <span class="close" id="closeBtn">&times;</span>
+  <img id="lightImg" src="" alt="foto grande" />
+</div>
+
+<script>
+const photos = document.querySelectorAll('.photo img');
+const lightbox = document.getElementById('lightbox');
+const lightImg = document.getElementById('lightImg');
+const closeBtn = document.getElementById('closeBtn');
+
+photos.forEach(photo=>{
+  photo.addEventListener('click', ()=>{
+    lightImg.src = photo.src;
+    lightbox.classList.add('active');
+  });
+});
+
+closeBtn.addEventListener('click', ()=>{
+  lightbox.classList.remove('active');
+  lightImg.src="";
+});
+</script>
+</body>
+</html>
